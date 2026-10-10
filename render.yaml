@@ -1,0 +1,112 @@
+# Aiven MySQL and Cloudflare Pages are configured separately.
+# Supply sync:false values, then upload ca.pem under Environment > Secret Files.
+services:
+  - type: web
+    name: ticketing-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: commit
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: "SupportDesk"
+      - key: APP_ENV
+        value: "production"
+      - key: APP_DEBUG
+        value: "false"
+      - key: TRUSTED_PROXIES
+        value: "*"
+      - key: LOG_CHANNEL
+        value: "stderr"
+      - key: LOG_LEVEL
+        value: "warning"
+      - key: PORT
+        value: "10000"
+      - key: DB_CONNECTION
+        value: "mysql"
+      - key: DB_CHARSET
+        value: "utf8mb4"
+      - key: DB_COLLATION
+        value: "utf8mb4_unicode_ci"
+      - key: DB_SSL_CA
+        value: "/etc/secrets/ca.pem"
+      - key: SESSION_DRIVER
+        value: "database"
+      - key: SESSION_DOMAIN
+        value: "null"
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: SESSION_SAME_SITE
+        value: "none"
+      - key: SESSION_COOKIE
+        value: "ticketing-session"
+      - key: CACHE_STORE
+        value: "database"
+      - key: QUEUE_CONNECTION
+        value: "sync"
+      - key: RUN_MIGRATIONS
+        value: "false"
+      - key: RUN_REVERB
+        value: "true"
+      - key: RUN_SCHEDULER
+        value: "true"
+      - key: RUN_QUEUE_WORKER
+        value: "false"
+      - key: BROADCAST_CONNECTION
+        value: "reverb"
+      - key: REVERB_HOST
+        value: "127.0.0.1"
+      - key: REVERB_PORT
+        value: "8081"
+      - key: REVERB_SCHEME
+        value: "http"
+      - key: REVERB_SERVER_HOST
+        value: "127.0.0.1"
+      - key: REVERB_SERVER_PORT
+        value: "8081"
+      - key: MAIL_MAILER
+        value: "smtp"
+      - key: MAIL_SCHEME
+        value: "smtp"
+      - key: MAIL_PORT
+        value: "2525"
+      - key: MAIL_FROM_NAME
+        value: "SupportDesk"
+      - key: FILESYSTEM_DISK
+        value: "local"
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: REVERB_APP_ID
+        sync: false
+      - key: REVERB_APP_KEY
+        sync: false
+      - key: REVERB_APP_SECRET
+        sync: false
+      - key: REVERB_ALLOWED_ORIGINS
+        sync: false
+      - key: MAIL_HOST
+        sync: false
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_FROM_ADDRESS
+        sync: false

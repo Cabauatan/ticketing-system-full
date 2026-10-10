@@ -1,0 +1,43 @@
+server {
+    listen 0.0.0.0:__PORT__;
+    server_name _;
+    root /var/www/html/public;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # The public WebSocket shares Render's HTTPS port. Publishing uses the
+    # internal Reverb port directly; /apps is not publicly proxied.
+    location ^~ /app/ {
+        proxy_pass http://127.0.0.1:8081;
+        proxy_http_version 1.1;
+        proxy_set_header Host $http_host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_read_timeout 75s;
+        proxy_send_timeout 75s;
+        proxy_buffering off;
+    }
+
+    location = /index.php {
+        include fastcgi_params;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+        fastcgi_param DOCUMENT_ROOT $document_root;
+        fastcgi_param HTTP_PROXY "";
+        fastcgi_hide_header X-Powered-By;
+        fastcgi_read_timeout 120s;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
