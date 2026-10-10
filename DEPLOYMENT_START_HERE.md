@@ -113,7 +113,9 @@ Huwag gamitin ang `migrate:fresh`, `db:wipe` o `--seed` sa automatic deployment.
 
 ## 5. Gumawa ng Cloudflare Pages frontend
 
-Sa [Cloudflare Dashboard](https://dash.cloudflare.com/), pumunta sa **Workers & Pages**, gumawa ng **Pages** project at ikonekta ang parehong GitHub repository. Piliin ang Pages Git integration.
+Sa [Cloudflare Dashboard](https://dash.cloudflare.com/), pumunta sa **Compute > Workers & Pages > Create application**. Sa unang **Make something new** screen, nasa ibaba ang **Need to use the legacy Pages workflow? Continue to Pages**. I-click muna ang **Continue to Pages**, pagkatapos piliin ang Git import at ikonekta ang parehong GitHub repository.
+
+Tiyaking Pages ang form: dapat may **Build output directory**. Kung **Configure your Worker project** ang title at may **Deploy command**, nasa Workers flow ka; bumalik at piliin ang **Continue to Pages**.
 
 | Setting | Ilalagay |
 | --- | --- |
@@ -137,6 +139,8 @@ VITE_REVERB_SCHEME=https
 VITE_REVERB_HOST ay hostname lang, walang `https://`. VITE_API_URL ay buong backend origin, walang `/api`. REVERB_APP_KEY ang public frontend key; hindi REVERB_APP_SECRET.
 
 May npm at pnpm lockfiles ang project. Ang explicit `npm ci` at SKIP_DEPENDENCY_INSTALL ay gumagamit ng committed npm lockfile at nilalaktawan ang automatic package-manager selection. Tingnan ang [Cloudflare Vue build settings](https://developers.cloudflare.com/pages/framework-guides/deploy-a-vue-site/) at [custom dependency installation](https://developers.cloudflare.com/pages/configuration/build-image/).
+
+Kung may `npm EUSAGE` na nagsasabing may missing dependencies sa lockfile, kailangang i-repair at i-push muna ang `frontend-ticketing/package-lock.json`. Sa bagong temporary directory na may kopya lamang ng `package.json` at `package-lock.json`, patakbuhin ang `npm install --package-lock-only --ignore-scripts`, pagkatapos `npm ci`. Kopyahin ang frontend build sources sa parehong temporary directory at patakbuhin ang `npm run build`. Kapag parehong successful, ibalik ang repaired lockfile sa project, i-commit at i-push bago i-retry ang Cloudflare build. Hindi kailangang burahin ang kasalukuyang project dependencies; nasa [full guide](RENDER_DEPLOYMENT.md#npm-eusage-and-lockfile-repair) ang detalye.
 
 Deploy, pagkatapos kopyahin ang actual production `https://YOUR-FRONTEND.pages.dev` URL.
 

@@ -209,7 +209,9 @@ The seeder creates or updates that account, marks it verified and may change its
 
 ## 6. Deploy Vue to Cloudflare Pages
 
-In Workers & Pages select Pages and import the same GitHub repository:
+In Cloudflare **Compute > Workers & Pages > Create application**, the initial **Make something new** screen includes **Need to use the legacy Pages workflow? Continue to Pages** at the bottom. Select **Continue to Pages** first, then import the same GitHub repository.
+
+The Pages form has **Build output directory**. A **Configure your Worker project** form with **Deploy command** is the Workers flow; return to **Continue to Pages** to use the configuration below.
 
 | Setting | Value |
 | --- | --- |
@@ -238,6 +240,17 @@ Never put APP_KEY, DB_*, SMTP passwords or REVERB_APP_SECRET in VITE_* variables
 The frontend public/_redirects provides the SPA fallback for direct Vue route visits and must appear in dist. Keep any deliberate future API proxy rules ahead of the fallback. See [Pages routing](https://developers.cloudflare.com/pages/configuration/serving-pages/).
 
 Once Pages gives its URL, update Render FRONTEND_URL and CORS_ALLOWED_ORIGINS to the exact origin, and REVERB_ALLOWED_ORIGINS to the hostname. Redeploy backend variables. Rebuild Pages if its backend/WebSocket hostname changes.
+
+### npm EUSAGE and lockfile repair
+
+If npm ci reports missing lockfile dependencies, repair the committed frontend-ticketing/package-lock.json before retrying Pages. Use a new temporary directory containing only copies of frontend-ticketing/package.json and frontend-ticketing/package-lock.json, then run:
+
+~~~powershell
+npm install --package-lock-only --ignore-scripts
+npm ci
+~~~
+
+After the clean install succeeds, copy the frontend src and public directories plus index.html and vite.config.js into that same temporary directory and run npm run build there. Once both checks pass, copy the repaired package-lock.json back to frontend-ticketing/package-lock.json, review it, commit that file and push to the deployment branch. Retry Cloudflare only after the repaired lockfile is present in GitHub. Keep existing project dependencies intact; the repair and clean-install checks use the new temporary directory.
 
 ## 7. Verify deployment
 
