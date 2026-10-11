@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Listeners\CheckApplicationStorage;
 use App\Models\User;
 use App\Services\TicketRealtime;
 use Carbon\CarbonImmutable;
+use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -27,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        Event::listen(DiagnosingHealth::class, CheckApplicationStorage::class);
         User::saved(function (User $user): void {
             if ($user->wasRecentlyCreated || $user->wasChanged(['name', 'email', 'email_verified_at', 'avatar_path', 'role'])) {
                 DB::afterCommit(fn () => app(TicketRealtime::class)->afterWrite('AdminUsersChanged', [$user->id]));

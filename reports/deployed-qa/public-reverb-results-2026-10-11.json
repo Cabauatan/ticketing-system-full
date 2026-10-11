@@ -1,0 +1,26 @@
+{
+  "auditedAtUtc": "2026-10-11T06:09:51.505Z",
+  "chunkUrl": "https://ticketing-system-full.pages.dev/assets/echo-CT95tPY7.js",
+  "chunkStatus": 200,
+  "chunkSha256": "ab00c501d78e5bb80d3f34d0b7618b0151dffcb8f3fc7c421a49e2fbbe1c99fa",
+  "reverbConfigurationFound": false,
+  "publicKeyPresent": false,
+  "sourceMarkers": {
+    "broadcaster": true,
+    "reverb": false,
+    "pusher": true,
+    "wsHost": true,
+    "supportdeskRefresh": false
+  },
+  "importedChunks": [
+    "./index-CVLvJGxz.js"
+  ],
+  "host": null,
+  "port": null,
+  "secureTransport": null,
+  "websocketHandshake": null,
+  "limitations": [
+    "A successful public handshake does not test authenticated private channel authorization or published events."
+  ],
+  "initializationCompiledToNoop": true
+}

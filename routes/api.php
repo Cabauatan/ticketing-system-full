@@ -40,6 +40,7 @@ Route::middleware(['web', 'auth', 'verified', EnforceTicketPermissions::class, '
         'avatar_url' => $request->user()->avatarUrl(),
     ]]))->name('user');
     Route::get('tickets', [TicketController::class, 'index'])->name('tickets.index');
+    Route::get('ticket-categories', [TicketController::class, 'categories'])->name('tickets.categories');
     Route::post('tickets', [TicketController::class, 'store'])->name('tickets.store');
     Route::get('tickets/{ticket}', [TicketController::class, 'show'])->whereNumber('ticket')->name('tickets.show');
     Route::patch('tickets/{ticket}', [TicketController::class, 'update'])->whereNumber('ticket')->name('tickets.update');

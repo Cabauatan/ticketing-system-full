@@ -1,0 +1,533 @@
+{
+  "auditedAtUtc": "2026-10-11T06:05:01.100Z",
+  "timezone": "Asia/Singapore",
+  "backend": "https://ticketing-system-full.onrender.com",
+  "frontend": "https://ticketing-system-full.pages.dev",
+  "scope": "Live read-only public HTTP and unauthenticated access controls. No email sent, authenticated writes, database changes, or load testing.",
+  "maxRequestRatePerMinute": 18,
+  "results": [
+    {
+      "name": "Backend root",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/",
+      "status": 500,
+      "durationMs": 26686,
+      "contentType": "application/json",
+      "cors": {
+        "origin": null,
+        "credentials": null,
+        "methods": null,
+        "headers": null,
+        "exposed": null
+      },
+      "message": "Server Error",
+      "server": "cloudflare",
+      "hsts": null
+    },
+    {
+      "name": "Backend health",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/up",
+      "status": 200,
+      "durationMs": 297,
+      "contentType": "application/json",
+      "cors": {
+        "origin": null,
+        "credentials": null,
+        "methods": null,
+        "headers": null,
+        "exposed": null
+      }
+    },
+    {
+      "name": "Frontend HTML",
+      "method": "GET",
+      "url": "https://ticketing-system-full.pages.dev/",
+      "status": 200,
+      "durationMs": 148,
+      "contentType": "text/html; charset=utf-8",
+      "cors": {
+        "origin": "*",
+        "credentials": null,
+        "methods": null,
+        "headers": null,
+        "exposed": null
+      },
+      "entryScript": "https://ticketing-system-full.pages.dev/assets/index-CVLvJGxz.js"
+    },
+    {
+      "name": "CSRF bootstrap",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/csrf-token",
+      "status": 500,
+      "durationMs": 144,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "cookieAttributes": [],
+      "tokenPresent": false
+    },
+    {
+      "name": "CORS: production",
+      "method": "OPTIONS",
+      "url": "https://ticketing-system-full.onrender.com/email/verification-notification",
+      "status": 204,
+      "durationMs": 147,
+      "contentType": "text/html; charset=UTF-8",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS",
+        "headers": "accept, authorization, content-type, origin, x-csrf-token, x-requested-with, x-xsrf-token, x-socket-id",
+        "exposed": null
+      },
+      "pass": true
+    },
+    {
+      "name": "CORS: preview",
+      "method": "OPTIONS",
+      "url": "https://ticketing-system-full.onrender.com/email/verification-notification",
+      "status": 204,
+      "durationMs": 68,
+      "contentType": "text/html; charset=UTF-8",
+      "cors": {
+        "origin": "https://2791923a.ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS",
+        "headers": "accept, authorization, content-type, origin, x-csrf-token, x-requested-with, x-xsrf-token, x-socket-id",
+        "exposed": null
+      },
+      "pass": true
+    },
+    {
+      "name": "CORS: untrusted origin",
+      "method": "OPTIONS",
+      "url": "https://ticketing-system-full.onrender.com/email/verification-notification",
+      "status": 204,
+      "durationMs": 70,
+      "contentType": "text/html; charset=UTF-8",
+      "cors": {
+        "origin": null,
+        "credentials": null,
+        "methods": null,
+        "headers": null,
+        "exposed": null
+      },
+      "pass": true
+    },
+    {
+      "name": "Protected: /api/me",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/me",
+      "status": 500,
+      "durationMs": 84,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/user",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/user",
+      "status": 500,
+      "durationMs": 76,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/dashboard",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/dashboard",
+      "status": 500,
+      "durationMs": 96,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/permissions",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/permissions",
+      "status": 500,
+      "durationMs": 74,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/tickets",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/tickets",
+      "status": 500,
+      "durationMs": 82,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/tickets/1",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/tickets/1",
+      "status": 500,
+      "durationMs": 78,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/tickets/1/chat",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/tickets/1/chat",
+      "status": 500,
+      "durationMs": 368,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/tickets/1/assets",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/tickets/1/assets",
+      "status": 500,
+      "durationMs": 77,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/inventory",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/inventory",
+      "status": 500,
+      "durationMs": 90,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/inventory/1",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/inventory/1",
+      "status": 500,
+      "durationMs": 146,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/inventory/1/attachments/1",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/inventory/1/attachments/1",
+      "status": 500,
+      "durationMs": 81,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/reports",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/reports",
+      "status": 500,
+      "durationMs": 73,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/reports/export.xlsx",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/reports/export.xlsx",
+      "status": 500,
+      "durationMs": 70,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/reports/inventory",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/reports/inventory",
+      "status": 500,
+      "durationMs": 71,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/reports/inventory.xlsx",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/reports/inventory.xlsx",
+      "status": 500,
+      "durationMs": 69,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/reports/tickets.xlsx",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/reports/tickets.xlsx",
+      "status": 500,
+      "durationMs": 100,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/inventory/export.xlsx",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/inventory/export.xlsx",
+      "status": 500,
+      "durationMs": 116,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/admin",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/admin",
+      "status": 500,
+      "durationMs": 120,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/admin/permissions",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/admin/permissions",
+      "status": 500,
+      "durationMs": 82,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/settings/profile",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/settings/profile",
+      "status": 500,
+      "durationMs": 75,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/settings/profile/avatar",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/settings/profile/avatar",
+      "status": 500,
+      "durationMs": 76,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/settings/security",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/settings/security",
+      "status": 500,
+      "durationMs": 82,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Protected: /api/notifications",
+      "method": "GET",
+      "url": "https://ticketing-system-full.onrender.com/api/notifications",
+      "status": 500,
+      "durationMs": 81,
+      "contentType": "application/json",
+      "cors": {
+        "origin": "https://ticketing-system-full.pages.dev",
+        "credentials": "true",
+        "methods": null,
+        "headers": null,
+        "exposed": "Content-Disposition"
+      },
+      "message": "Server Error",
+      "pass": false
+    },
+    {
+      "name": "Frontend entry bundle",
+      "method": "GET",
+      "url": "https://ticketing-system-full.pages.dev/assets/index-CVLvJGxz.js",
+      "status": 200,
+      "durationMs": 222,
+      "contentType": "application/javascript",
+      "cors": {
+        "origin": "*",
+        "credentials": null,
+        "methods": null,
+        "headers": null,
+        "exposed": null
+      }
+    }
+  ],
+  "limitations": [
+    "Authenticated CRUD, role-specific access, real-time private subscriptions, email inbox delivery, and Excel content require separate authenticated checks."
+  ]
+}

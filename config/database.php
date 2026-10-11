@@ -4,10 +4,17 @@ use Illuminate\Support\Str;
 use Pdo\Mysql;
 
 $mysqlSslCa = env('MYSQL_ATTR_SSL_CA') ?: env('DB_SSL_CA');
-$mysqlSslOptions = extension_loaded('pdo_mysql') && $mysqlSslCa ? [
-    Mysql::ATTR_SSL_CA => $mysqlSslCa,
-    Mysql::ATTR_SSL_VERIFY_SERVER_CERT => true,
+$mysqlOptions = extension_loaded('pdo_mysql') ? [
+    // Procedures assemble JSON using GROUP_CONCAT. MySQL's 1 KB default
+    // truncates normal comments and audit history into invalid JSON.
+    Mysql::ATTR_INIT_COMMAND => 'SET SESSION group_concat_max_len = 16777216',
 ] : [];
+if (extension_loaded('pdo_mysql') && $mysqlSslCa) {
+    $mysqlOptions += [
+        Mysql::ATTR_SSL_CA => $mysqlSslCa,
+        Mysql::ATTR_SSL_VERIFY_SERVER_CERT => true,
+    ];
+}
 
 return [
 
@@ -65,7 +72,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => $mysqlSslOptions,
+            'options' => $mysqlOptions,
         ],
 
         'mariadb' => [
@@ -83,7 +90,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => $mysqlSslOptions,
+            'options' => $mysqlOptions,
         ],
 
         'pgsql' => [

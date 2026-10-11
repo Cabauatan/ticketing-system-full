@@ -18,6 +18,13 @@ class TicketController extends Controller
 
     private const PRIORITIES = ['low', 'medium', 'high', 'urgent'];
 
+    public function categories(Request $request, TicketStore $store): JsonResponse
+    {
+        return $this->ticketData([
+            'categories' => $store->call('TicketCategories', [$request->user()->id, 0]),
+        ]);
+    }
+
     public function index(Request $request, TicketStore $store): JsonResponse
     {
         $filters = $request->validate([

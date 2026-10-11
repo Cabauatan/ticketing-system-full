@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     public function avatarUrl(): ?string
     {
         return $this->avatar_path
-            ? '/api/settings/profile/avatar?v='.rawurlencode($this->avatar_path)
+            ? route('api.profile.avatar', ['v' => $this->avatar_path])
             : null;
     }
 }

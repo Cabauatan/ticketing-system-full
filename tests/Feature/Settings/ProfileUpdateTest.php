@@ -69,7 +69,7 @@ class ProfileUpdateTest extends TestCase
         ], ['Accept' => 'application/json']);
 
         $response->assertOk()->assertJsonPath('message', 'Profile photo updated.')
-            ->assertJsonPath('data.user.avatar_url', fn ($url) => str_starts_with($url, '/api/settings/profile/avatar?v='));
+            ->assertJsonPath('data.user.avatar_url', fn ($url) => str_starts_with($url, route('api.profile.avatar').'?v='));
         $path = $user->refresh()->avatar_path;
         $this->assertNotNull($path);
         Storage::disk('local')->assertExists($path);

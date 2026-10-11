@@ -9,12 +9,18 @@ export const useTicketStore = defineStore('tickets', {
         assets: [],
         attachments: [],
         agents: [],
+        categories: [],
         canManage: false,
         canAssign: false,
         canChangePriority: false,
         canInternal: false,
     }),
     actions: {
+        async fetchCategories() {
+            const { data } = await http.get('/api/ticket-categories')
+            this.categories = data.data.categories || []
+            return this.categories
+        },
         async fetchList(params = {}) {
             const { data } = await http.get('/api/tickets', { params })
             this.rows = data.data.tickets || []

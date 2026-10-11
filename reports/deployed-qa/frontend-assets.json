@@ -1,0 +1,559 @@
+{
+  "checkedAtSingapore": "2026-10-11 14:04:56",
+  "frontend": "https://ticketing-system-full.pages.dev",
+  "scope": "Read-only HTTP GETs for public static resources and SPA fallback paths; no browser or authenticated API operations.",
+  "entryScript": "/assets/index-CVLvJGxz.js",
+  "assetsChecked": 35,
+  "routesChecked": 18,
+  "failed": [],
+  "environment": {
+    "canonicalBackendPresent": true,
+    "oldBackendHostnamePresent": false,
+    "frontendPlaceholderPresent": false,
+    "explicitLoopbackUrlPresent": true,
+    "lanApiUrlPresent": false,
+    "deliveryStatusHandlingPresent": true,
+    "csrfRetryMarkerPresent": true,
+    "loopbackLiteralClassification": "Axios non-browser URL parsing fallback; not configured API origin"
+  },
+  "requests": [
+    {
+      "path": "/",
+      "type": "entry",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d"
+    },
+    {
+      "path": "/SystemIcon.png",
+      "type": "asset",
+      "status": 200,
+      "mime": "image/png",
+      "bytes": 1298481,
+      "sha256": "129eea55d76d4a2103dd214dd8ee1e82036a59b151aabd93e9861e07c8f4186c",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/index-CVLvJGxz.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 103593,
+      "sha256": "647458a4a7834dacea23cd59499ccddafcb6d0a78e7f8ff500b5b14f403cdfb5",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/runtime-core.esm-bundler-BfbemFaq.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 59358,
+      "sha256": "3766ee5810a50d670b723d73a17c00a763f79ec6f92d3dd6e21bd8dce45ae4a8",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/index-DzTkhcCQ.css",
+      "type": "asset",
+      "status": 200,
+      "mime": "text/css; charset=utf-8",
+      "bytes": 88929,
+      "sha256": "1e7e1741b582afabec8a5880b733bb14af366ea5ae118557b403e5c48c2eafd6",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/LoginView-CjMjI2KP.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 3743,
+      "sha256": "eb4d41bfb738a951f2d4dbaeadcbcf5fead5c6248e01c4485d7653189fa12eff",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/AuthFrame-B8ZsY0tl.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 942,
+      "sha256": "8915bf029eca6120c41cf015744807a9430355e66ff9b8c26213772d2174492a",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/RegisterView-DfBA5o1n.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 4135,
+      "sha256": "be1f21cc3839b2bcb259409beb2db2b67c5312e5993cc0067593852fb73ec665",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/ForgotPasswordView-Bxpg1kfl.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 1625,
+      "sha256": "71fc5ecb69fb63c766e23675355ae3b9275f432c9ff863122fa157388645f14f",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/ResetPasswordView-CIbbD9jm.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 2194,
+      "sha256": "40f5e6f9cb2903cbc1e468411367d3a8867a2159882db39c71afff88e6f10e38",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/VerifyEmailView-BPmJug2C.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 2905,
+      "sha256": "6a645336b7f963e595690bd0836bcbaa664f1fd1d267e78d17d51aca2e87c9d3",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/AppLayout-tuo9yl_Z.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 7100,
+      "sha256": "3baae6203523dc453026bbe953690208ef6fd80fed941c8d22b965eaf3c204e0",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/notifications-Csjq1-gY.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 1616,
+      "sha256": "50430bbed866ebc6b9ce5174725b74361fdc39b743f50bf0458f479412c183b4",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/echo-CT95tPY7.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 61726,
+      "sha256": "ab00c501d78e5bb80d3f34d0b7618b0151dffcb8f3fc7c421a49e2fbbe1c99fa",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/roleLabel-CKRS0TdA.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 256,
+      "sha256": "5cc134c7e13d9db1a63da133fbcb2a3abee87c82072977387f4f4e8ba8796667",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/DashboardView--7rX0mC5.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 215926,
+      "sha256": "f805103d260187538d3a79a4ef76fbd404231e6c6b6867271979e2972503ca02",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/TicketsView-DhO5KIPr.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 2735,
+      "sha256": "e353bf03964ca005fb9e39549a99f53e1e0cc34548f9d14075effc2db723ad57",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/tickets-Cs8MoCBM.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 1322,
+      "sha256": "c53451170999050bbbdb32bea5bce93af214504a55b173ea2243d20957a5d190",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/TicketCreateView-BEIzp0rX.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 2453,
+      "sha256": "6d4a7f49c01887efc939ec9bc8437ed8c1b85fed3978aedfacecd66ebe07af1f",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/TicketDetailView-aWJSunli.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 12950,
+      "sha256": "e7af4eea3b1a30d20308b71b2fad8260ff7192357604614dc10958ca3101065b",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/InventoryView-CtEIhNer.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 6751,
+      "sha256": "2228172d8b0705f9ae1492939eac0973d193f2ae894d296ee6d43fd91b22452c",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/inventory-CGKINiGs.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 887,
+      "sha256": "2ef5d1849fcc82a06b5f67f4d9f73b71aff433dae16bf611b4042725374a1951",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/AssetCreateView-bYV9rVrL.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 10243,
+      "sha256": "57b22ad43cf506f5c9600ffb21e7423950da67dd6dec7e7fe25f2901bb3a60d0",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/AssetDetailView-Y19G0tmr.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 26386,
+      "sha256": "2358f7837f45ef9e89966657135858b66453a16c6731f83f9926372cbae0e3ce",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/ReportsView-Cu93XIZD.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 9817,
+      "sha256": "34a1c9254262c2efd24da50f5c56030286755013b8550e3bf7bc9a16d995a9b4",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/ReportsView-B95193zs.css",
+      "type": "asset",
+      "status": 200,
+      "mime": "text/css; charset=utf-8",
+      "bytes": 1729,
+      "sha256": "e62420b79a68890fe5e4ebce8be6801b043bf9fda2c65ff8aa18166258fd6c76",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/NotificationsView-BXbWzT5A.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 5111,
+      "sha256": "6df9a374c91c71011b6d17b503a6d9b61afab019ad8e13bdce37424b4e1e6ed4",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/AdminView-DtM8xaEk.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 20349,
+      "sha256": "1fef38386736d97daed5980aff1e4f1f3a2a32936ced3e84715a4dbdba4524c9",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/AdminView-CO-m_lkW.css",
+      "type": "asset",
+      "status": 200,
+      "mime": "text/css; charset=utf-8",
+      "bytes": 23563,
+      "sha256": "4e6678e52d078ff300b1fd93a86198e8570a2121f8d80aa1ba166b067487cee9",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/ProfileView-E9r1ggMq.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 6120,
+      "sha256": "7de3bec269d9acbcb6bdc38303ac1f244926acde1467a49f04dbf3a059596910",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/NotFoundView-DSghX0EM.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 520,
+      "sha256": "deefe6c75aa3f6f3fc45cffd865d8d2c5a0e04f74e83593cd46e272008191328",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/ForbiddenView-CvODFy5G.js",
+      "type": "asset",
+      "status": 200,
+      "mime": "application/javascript",
+      "bytes": 536,
+      "sha256": "746313a8b19f40233c99ced1caa05586afa2974cee7b3bfb94c8b7dab68e489c",
+      "ok": true,
+      "matchesLocalDist": null
+    },
+    {
+      "path": "/assets/primeicons-BvM4qbWp.woff2",
+      "type": "asset",
+      "status": 200,
+      "mime": "font/woff2",
+      "bytes": 32564,
+      "sha256": "f051049e026ae91d72ce02a23f89e5a28f689ca94b59a55a264670c4aeaa219c",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/primeicons-qgkbr2_s.woff",
+      "type": "asset",
+      "status": 200,
+      "mime": "font/woff",
+      "bytes": 88392,
+      "sha256": "6c03d421d762fa3caac6dabe757608cf6ad7f8635b706d7b8df768e0a1f2c046",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/primeicons-vaISzP8W.ttf",
+      "type": "asset",
+      "status": 200,
+      "mime": "font/ttf",
+      "bytes": 88316,
+      "sha256": "1469fd0058de399feffc5e5c5017432934f043ef9461f0fff1760f947bd8bacb",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/assets/primeicons-BmvFdQzO.svg",
+      "type": "asset",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "bytes": 334030,
+      "sha256": "2a7dd9c4980aa75858346914ff448029022cc4029e2a0eafed0d19390c28378f",
+      "ok": true,
+      "matchesLocalDist": true
+    },
+    {
+      "path": "/auth/login",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/auth/register",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/auth/forgot-password",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/reset-password/audit-placeholder",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/verify-email",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/dashboard",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/tickets",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/tickets/new",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/tickets/1",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/inventory",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/inventory/new",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/inventory/1",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/reports",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/notifications",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/admin",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/settings/profile",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/forbidden",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    },
+    {
+      "path": "/audit-route-that-does-not-exist",
+      "type": "spa-fallback",
+      "status": 200,
+      "mime": "text/html; charset=utf-8",
+      "bytes": 685,
+      "sha256": "1e212b472dcecfa854a957faa2d8796d942a5f76a64684578e22074a98871f9d",
+      "ok": true
+    }
+  ],
+  "sourceFindings": [
+    {
+      "code": "avatar-relative-origin",
+      "status": "fixed locally, not deployed",
+      "files": [
+        "app/Models/User.php",
+        "tests/Feature/Settings/AvatarUrlTest.php",
+        "tests/Feature/Settings/ProfileUpdateTest.php"
+      ],
+      "testsPassed": 3,
+      "assertions": 4
+    },
+    {
+      "code": "new-ticket-hardcoded-categories",
+      "status": "root agent owns fix",
+      "file": "frontend-ticketing/src/views/TicketCreateView.vue"
+    }
+  ]
+}

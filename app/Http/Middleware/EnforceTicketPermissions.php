@@ -19,7 +19,7 @@ class EnforceTicketPermissions
             'inventory.attachments.download' => 'inventory.view',
             'inventory.export' => 'inventory.export',
             'tickets.index', 'tickets.show', 'tickets.chat.index', 'tickets.chat.presence' => 'tickets.view',
-            'tickets.store' => 'tickets.create',
+            'tickets.store', 'tickets.categories' => 'tickets.create',
             'tickets.update' => 'tickets.update',
             'tickets.reopen' => 'tickets.reopen',
             'tickets.comments.store' => 'tickets.comment',
