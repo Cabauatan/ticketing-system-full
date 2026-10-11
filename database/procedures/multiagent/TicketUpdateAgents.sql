@@ -13,7 +13,7 @@ BEGIN
     END;
 
     DROP TEMPORARY TABLE IF EXISTS tmp_ticket_agents;
-    CREATE TEMPORARY TABLE tmp_ticket_agents (id BIGINT UNSIGNED NOT NULL PRIMARY KEY) ENGINE=MEMORY;
+    CREATE TEMPORARY TABLE tmp_ticket_agents (id BIGINT UNSIGNED NOT NULL PRIMARY KEY) ENGINE=InnoDB;
     START TRANSACTION;
     SELECT id INTO v_lock FROM ticket_admin_lock WHERE id = 1 FOR UPDATE;
     CALL PermissionRequire(p_actor, 'tickets.update');
