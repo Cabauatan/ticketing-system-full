@@ -73,3 +73,9 @@ Sign in to the existing unverified account and select **Resend verification emai
 If an earlier registration saved the account before reporting a mail error, use that account's existing password to sign in instead of registering the email again. After these fixes, mail failure shows a clear message while keeping the account unverified. Production passwords require at least 12 characters, uppercase/lowercase letters, numbers and symbols.
 
 The local automated checks use a fake mail transport and SQLite memory. Real Brevo delivery must be confirmed after the SMTP credentials and approved sender are configured in Render. [Brevo delivery troubleshooting](https://help.brevo.com/hc/en-us/articles/115000188150-Troubleshooting-Issues-with-Brevo-SMTP).
+
+## 6. Troubleshoot delivery and verification links
+
+If Brevo logs show a sender such as `support@replace-verified-domain.example`, the active Render `MAIL_FROM_ADDRESS` is still a placeholder. Replace it with your verified Brevo sender, **Save and deploy**, and resend. The recipient is the email of the signed-in account shown on the Vue verification page.
+
+If the email opens an old or nonexistent backend hostname, set `APP_URL=https://ticketing-system-full.onrender.com` and `FRONTEND_URL=https://ticketing-system-full.pages.dev` in Render, **Save and deploy**, then resend. The container refreshes Laravel's cached configuration at startup. Use the newest signed email link; changing an old link's hostname invalidates its signature. Do not publish the signed URL in logs or screenshots. [Laravel signed URLs](https://laravel.com/docs/13.x/urls#signed-urls).

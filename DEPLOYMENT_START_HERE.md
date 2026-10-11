@@ -26,7 +26,7 @@ Pumunta sa [Render Dashboard](https://dashboard.render.com/) at piliin ang **New
 
 | Setting | Ilalagay |
 | --- | --- |
-| Name | Pumili ng available na pangalan, halimbawa ticketing-api-marcel |
+| Name | Gamitin ang pangalan ng service mo; ticketing-system-full ang kasalukuyang deployment |
 | Branch | main |
 | Language / Runtime | Docker |
 | Root Directory | Iwanang blank; repository root ang backend |
@@ -108,10 +108,12 @@ Ang unang migration ay gagawa ng tables at stored procedures sa Aiven, hindi sa 
 1. Para sa initial schema setup, ilagay ang `RUN_MIGRATIONS=true` sa Render Environment.
 2. I-deploy ang service; kung nauna ang deploy bago matapos ang settings, i-save ang kumpletong settings at i-deploy muli.
 3. Sa Logs, hintayin ang successful pending migrations at service startup.
-4. Kopyahin ang public URL na ibinigay ng Render, halimbawa `https://ticketing-api-marcel.onrender.com`. Gamitin ang aktuwal na URL, hindi ang halimbawang ito.
+4. Kopyahin ang public URL na ibinigay ng Render. Ang kasalukuyang backend URL ay `https://ticketing-system-full.onrender.com`.
 5. Ilagay ang actual URL sa APP_URL, walang trailing `/api`.
 6. Kapag successful na ang migrations, ibalik agad ang `RUN_MIGRATIONS=false` at **Save and deploy**.
 7. Buksan ang `https://YOUR-BACKEND.onrender.com/up`. Dapat HTTP 200. Simple process check ito; kailangan pa ring subukan ang login at database-backed pages.
+
+Sa kasalukuyang deployment, `APP_URL=https://ticketing-system-full.onrender.com` at `FRONTEND_URL=https://ticketing-system-full.pages.dev` ang dapat nasa Render Environment. Kapag ibang hostname ang nasa verification email, itama ang APP_URL, **Save and deploy**, pagkatapos mag-resend ng bagong verification email. Kasama ang hostname sa signature ng link; gamitin ang bagong email sa halip na baguhin ang lumang link.
 
 Huwag gamitin ang `migrate:fresh`, `db:wipe` o `--seed` sa automatic deployment. Hindi awtomatikong kinokopya ang local accounts sa Aiven.
 
