@@ -111,7 +111,9 @@ Ang unang migration ay gagawa ng tables at stored procedures sa Aiven, hindi sa 
 4. Kopyahin ang public URL na ibinigay ng Render. Ang kasalukuyang backend URL ay `https://ticketing-system-full.onrender.com`.
 5. Ilagay ang actual URL sa APP_URL, walang trailing `/api`.
 6. Kapag successful na ang migrations, ibalik agad ang `RUN_MIGRATIONS=false` at **Save and deploy**.
-7. Buksan ang `https://YOUR-BACKEND.onrender.com/up`. Dapat HTTP 200. Simple process check ito; kailangan pa ring subukan ang login at database-backed pages.
+7. Buksan ang `https://YOUR-BACKEND.onrender.com/up`. Dapat HTTP 200. Chine-check din nito ang encryption setup at configured database session/cache tables; kailangan pa ring subukan ang login at business transactions.
+
+Kapag failed ang startup, hanapin ang `Application storage readiness failed.` sa logs ng bagong deploy, saka kopyahin ang exception line na kasunod. Ipinapakita agad ng startup check ang database/TLS/schema error bago pa magsimula ang services. Kung `CheckApplicationStorage.php` stack frames lang ang nakikita, hanapin ang `production.ERROR` o `SQLSTATE` sa itaas ng `#0`. Hiwalay dito ang dating Supervisor shutdown permission error; ang updated runtime ay gumagamit ng www-data para sa Supervisor at lahat ng application services.
 
 Sa kasalukuyang deployment, `APP_URL=https://ticketing-system-full.onrender.com` at `FRONTEND_URL=https://ticketing-system-full.pages.dev` ang dapat nasa Render Environment. Kapag ibang hostname ang nasa verification email, itama ang APP_URL, **Save and deploy**, pagkatapos mag-resend ng bagong verification email. Kasama ang hostname sa signature ng link; gamitin ang bagong email sa halip na baguhin ang lumang link.
 

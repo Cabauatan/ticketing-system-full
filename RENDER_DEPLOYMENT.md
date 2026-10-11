@@ -9,7 +9,7 @@ Creating accounts, supplying credentials, provisioning MySQL, uploading its CA c
 ## Application findings
 
 - composer.json allows PHP 8.3, but locked production packages require PHP 8.4.1 or newer. Docker uses PHP 8.5 FPM on Alpine, matching the local 8.5 runtime.
-- Nginx serves public/index.php and listens on 0.0.0.0:$PORT, default 10000. Supervisor manages Nginx, PHP-FPM and explicitly enabled background processes.
+- Nginx serves public/index.php and listens on 0.0.0.0:$PORT, default 10000. Startup prepares runtime files, then Supervisor, Nginx, PHP-FPM and enabled background processes all run as www-data. This lets Supervisor signal its children even when container root lacks CAP_KILL.
 - Extensions include PDO MySQL/SQLite, mbstring, bcmath, ZIP, DOM/XMLReader/XMLWriter, cURL, GD and PCNTL. Core fileinfo, OpenSSL and iconv are available; OPcache is configured.
 - Authentication uses Fortify web sessions, cookies and CSRF. Sanctum and Bearer-token authentication are not installed. Existing JSON routes enforce permissions and email verification.
 - MySQL is required for the ticket/inventory stored procedures. SQLite configuration remains available for framework development/tests; it does not implement the stored-procedure business layer.
@@ -178,6 +178,21 @@ Free offers no dashboard shell or one-off jobs. Use the provided startup opt-in:
 5. Leave it false for normal pushes. Future schema updates need a reviewed migration window or an explicit CLI command.
 
 The entrypoint runs php artisan migrate --force only when RUN_MIGRATIONS is explicitly true. A failed migration stops startup.
+
+### Startup readiness and shutdown diagnostics
+
+After optional migrations, startup runs `php artisan app:check-storage` as the same user as the application. It checks encryption setup and the configured database session/cache/lock tables with zero-row reads. It does not migrate, seed, reset data, or load stored session/cache values. Failure exits before Supervisor starts and prints `Application storage readiness failed.` followed by a concise exception with configured encryption keys, database passwords and connection URLs redacted.
+
+For a failed deployment, copy that exception line from the new deployment's logs. It distinguishes database authentication, TLS, connection and schema failures. A `CheckApplicationStorage.php` stack frame identifies which check failed but does not replace the exception message. Keep the existing `/up` health check and `APP_DEBUG=false`.
+
+The runtime keeps the supervisor and child processes under one UID. Nginx/PHP-FPM temporary and PID paths are under `/tmp`; startup prepares inherited log streams for that user. This addresses the observed `PermissionError: [Errno 1] Operation not permitted` when Supervisor tried to stop www-data scheduler/Reverb processes. A preceding `/up` failure is a separate deployment-readiness error.
+
+The `Container runtime` GitHub workflow builds the image without application secrets, runs it with CAP_KILL removed, checks session bootstrap and the synthetic Reverb application, and verifies graceful shutdown. It also checks that missing session storage exits before services start. It uses SQLite/file storage only for this infrastructure smoke test; production ticket/inventory operations still require MySQL. To reproduce with Docker:
+
+~~~sh
+docker build --tag ticketing-runtime-smoke:local .
+bash tests/deployment/container-smoke.sh ticketing-runtime-smoke:local reports/container-runtime
+~~~
 
 Alternatively, run an explicit local Docker CLI against Aiven. Copy the template to an ignored .env.render.local and fill cloud values there. Keep RUN_MIGRATIONS=false. Docker --env-file takes literal values, so omit dotenv quote characters.
 

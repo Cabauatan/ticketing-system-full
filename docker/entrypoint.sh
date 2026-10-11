@@ -67,9 +67,25 @@ fi
 # These paths contain only runtime data. Existing SQLite files are untouched.
 mkdir -p bootstrap/cache storage/app/private storage/app/public \
     storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs \
-    /tmp/nginx-client-body /tmp/nginx-fastcgi
-chown -R www-data:www-data bootstrap/cache storage /tmp/nginx-client-body /tmp/nginx-fastcgi
+    /tmp/nginx-client-body /tmp/nginx-fastcgi /tmp/nginx-proxy /tmp/nginx-uwsgi /tmp/nginx-scgi
+chown -R www-data:www-data bootstrap/cache storage \
+    /tmp/nginx-client-body /tmp/nginx-fastcgi /tmp/nginx-proxy /tmp/nginx-uwsgi /tmp/nginx-scgi
 chmod -R ug+rwX bootstrap/cache storage
+
+# Supervisor and Nginx reopen their standard log streams after dropping UID.
+# Render can supply root-owned pipes, so prepare only these inherited streams
+# while startup still has permission to change their ownership.
+for runtime_stream in /proc/self/fd/1 /proc/self/fd/2; do
+    if ! su-exec www-data test -w "$runtime_stream"; then
+        chown www-data:www-data "$runtime_stream" || fail 'Could not prepare application stdout/stderr for the runtime user.'
+    fi
+    su-exec www-data test -w "$runtime_stream" || fail 'Application stdout/stderr is not writable by the runtime user.'
+done
+
+case "${RENDER_GIT_COMMIT:-}" in
+    ''|*[!0-9a-fA-F]*) ;;
+    *) printf 'Starting application revision %.12s\n' "$RENDER_GIT_COMMIT" ;;
+esac
 
 for feature in RUN_REVERB RUN_SCHEDULER RUN_QUEUE_WORKER; do
     # Only a fixed list of variable names is read; no input is executed as code.
@@ -97,8 +113,8 @@ case "${QUEUE_CONNECTION:-sync}" in
 esac
 
 sed "s/__PORT__/$PORT/g" /var/www/html/docker/nginx-site.conf.template > /etc/nginx/http.d/default.conf
-nginx -t
-php-fpm -t
+su-exec www-data nginx -e stderr -t
+su-exec www-data php-fpm -t
 
 su-exec www-data php artisan package:discover --no-interaction
 su-exec www-data php artisan config:cache --no-interaction
@@ -109,7 +125,10 @@ if enabled "${RUN_MIGRATIONS:-false}"; then
     su-exec www-data php artisan migrate --force --no-interaction
 fi
 
+su-exec www-data php artisan app:check-storage --no-interaction
 su-exec www-data php artisan route:cache --no-interaction
 su-exec www-data php artisan view:cache --no-interaction
 
-exec "$@"
+# A shared UID lets Supervisor stop web and background process groups without
+# CAP_KILL, which managed runtimes may remove even from container root.
+exec su-exec www-data "$@"

@@ -1,0 +1,44 @@
+name: Container runtime
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Dockerfile'
+      - 'docker/**'
+      - 'app/Console/Commands/CheckApplicationStorageCommand.php'
+      - 'app/Listeners/CheckApplicationStorage.php'
+      - 'tests/deployment/container-smoke.sh'
+      - '.github/workflows/container-runtime.yml'
+  pull_request:
+    paths:
+      - 'Dockerfile'
+      - 'docker/**'
+      - 'app/Console/Commands/CheckApplicationStorageCommand.php'
+      - 'app/Listeners/CheckApplicationStorage.php'
+      - 'tests/deployment/container-smoke.sh'
+      - '.github/workflows/container-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Build production container without application secrets
+        run: docker build --tag ticketing-runtime-smoke:ci .
+      - name: Verify sessions, Reverb, readiness failure and shutdown without CAP_KILL
+        run: bash tests/deployment/container-smoke.sh ticketing-runtime-smoke:ci reports/container-runtime
+      - name: Retain container diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: container-runtime-logs
+          path: reports/container-runtime/*.log
+          if-no-files-found: ignore
