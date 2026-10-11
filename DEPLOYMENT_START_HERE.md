@@ -1,6 +1,6 @@
 # Deploy mula sa simula
 
-Updated: October 10, 2026. Ito ang sunod-sunod na guide para sa kasalukuyang project.
+Updated: October 11, 2026. Ito ang sunod-sunod na guide para sa kasalukuyang project.
 
 | Bahagi | Gagamitin |
 | --- | --- |
@@ -97,6 +97,10 @@ APP_KEY, REVERB_APP_ID, REVERB_APP_KEY at REVERB_APP_SECRET: gamitin ang existin
 
 Para sa unang backend startup, puwedeng `MAIL_MAILER=log` habang wala pang mail provider. Hindi ito nagpapadala ng verification/reset email. Bago subukan ang registration verification, mag-configure ng provider na may SMTP port 2525 at verified sender. Hindi gagana ang Gmail SMTP ports 465/587 sa Render Free. Huwag iwanang aktibo ang placeholder SMTP credentials.
 
+Kapag pumalya ang verification email, mananatiling unverified ang bagong account at magpapakita ang Vue ng delivery problem. Kung may account na mula sa naunang failed registration, mag-sign in at gamitin ang **Resend verification email** pagkatapos ayusin ang provider; huwag i-register ulit ang email. Sa Render, gamitin ang tunay na SMTP host/login/key, verified sender, `MAIL_SCHEME=smtp`, supported `MAIL_PORT=2525` at `MAIL_TIMEOUT=10`, saka **Save and deploy**. Hindi sapat na gawing port 2525 ang Gmail host. Nasa [mail troubleshooting guide](RENDER_DEPLOYMENT.md#registration-and-verification-email) ang detalye at provider example.
+
+Para sa napiling Brevo setup, sundin ang [Brevo setup guide](BREVO_SETUP.md) para sa sender verification, SMTP Login/key, Render settings at pag-deploy ng fixes.
+
 ## 4. Unang deployment at migrations
 
 Ang unang migration ay gagawa ng tables at stored procedures sa Aiven, hindi sa local MySQL. Kung may ibang data na sa defaultdb, i-review at i-backup muna iyon.
@@ -161,25 +165,17 @@ Magkaibang sites ang pages.dev at onrender.com. Ang SameSite=None at Secure cook
 
 ## 7. Gumawa ng unang Superadmin sa bagong database
 
-Wala pang local user accounts sa bagong Aiven schema. Hindi nagse-seed ang startup. Para sa explicit one-time seeder, may Docker CLI procedure sa [full deployment guide](RENDER_DEPLOYMENT.md#first-superadmin-account). Kailangan ang Docker Desktop sa PC para sa paraang iyon; walang Shell ang Render Free.
-
-Sa private `.env.render.local`, ilagay ang actual cloud URLs at Aiven password, pagkatapos idagdag ang:
-
-```dotenv
-SUPERADMIN_EMAIL=marcelcabauatan@gmail.com
-SUPERADMIN_PASSWORD=CHOOSE_A_NEW_PRODUCTION_PASSWORD
-SUPERADMIN_NAME=Superadmin
-RUN_MIGRATIONS=false
-```
-
-Kapag installed at running na ang Docker Desktop, sa project root:
+Hindi kinokopya sa Aiven ang local accounts at hindi nagse-seed ang startup. Kapag tapos na ang cloud migrations, puwedeng gamitin ang lokal na PowerShell helper para gumawa ng Superadmin nang walang Docker. Sa project root:
 
 ```powershell
-docker build -t ticketing-render .
-docker run --rm --env-file .env.render.local --mount "type=bind,source=C:\Users\Marcel Jay\Downloads\ca.pem,target=/etc/secrets/ca.pem,readonly" --entrypoint php ticketing-render artisan db:seed --class=SuperadminSeeder --force
+.\scripts\seed-aiven.ps1 -CaPath "C:\Users\Marcel Jay\Downloads\ca.pem" -Email "marcelcabauatan@gmail.com"
 ```
 
-Gumagamit ng literal values ang Docker --env-file: huwag balutan ng dotenv quote characters ang values. Ang seeder ay gumagawa o nag-u-update ng account, nagse-set ng password at nagma-mark ng verified. Patakbuhin ito isang beses para sa intended account, pagkatapos alisin ang SUPERADMIN_PASSWORD sa file. Huwag awtomatikong patakbuhin ang seeder sa bawat redeploy.
+Default settings file ang private `.env.render.local`; puwedeng magbigay ng `-EnvPath '.env.render.local'` para sa ibang deployment file at `-Name 'Superadmin'` para sa pangalan. Ginagamit nito ang lokal na PHP 8.5 runtime, o compatible PHP sa PATH kung wala ang bundled runtime.
+
+Hihingi ito ng Aiven database password, bagong Superadmin password at repeat password gamit ang hidden prompts. Hindi sini-save o pini-print ang passwords. Gumagamit ito ng existing `SuperadminSeeder` sa verified TLS Aiven connection at database transaction. Kung existing na ang email, maa-update ang pangalan at password, magiging `superadmin` ang role at confirmed ang email verification. Mananatili ang existing two-factor configuration.
+
+Walang migrations na pinapatakbo ang helper at hindi nito binabago ang local `.env` o Laravel configuration. Ihanda muna ang cloud schema bago ito gamitin. Kung successful na ang seeding at gumagana ang Superadmin login, hindi kailangang ulitin ito. Nasa [full guide](RENDER_DEPLOYMENT.md#first-superadmin-account) pa rin ang Docker alternatives. Huwag patakbuhin ang seeder sa bawat redeploy.
 
 ## 8. Subukan ang deployed system
 

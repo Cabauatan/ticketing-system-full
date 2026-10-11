@@ -16,7 +16,7 @@ async function loadClients(env) {
             if (failure) throw failure
             return { data: { auth: 'signed-private-channel' } }
         },
-        interceptors: { request: { use: (handler) => { interceptor = handler } } },
+        interceptors: { request: { use: (handler) => { interceptor = handler } }, response: { use() {} } },
     }
     const context = vm.createContext({ window: { location: { hostname: 'frontend.pages.dev' } } })
     const axios = new vm.SyntheticModule(['default'], function () {

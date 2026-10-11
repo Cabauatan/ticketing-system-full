@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\VerificationEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -34,6 +35,11 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
+
+    public function sendEmailVerificationNotification(): void
+    {
+        app(VerificationEmail::class)->send($this);
+    }
 
     /**
      * Get the attributes that should be cast.

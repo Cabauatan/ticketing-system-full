@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import http, { ensureCsrf, refreshCsrf } from '@/api/http'
+import http, { ensureCsrf, refreshCsrf, resetCsrf } from '@/api/http'
 
 export const useAuthStore = defineStore('auth', {
-    state: () => ({ user: null, roles: [], permissions: [], ready: false, emailUnverified: false }),
+    state: () => ({ user: null, roles: [], permissions: [], ready: false, emailUnverified: false, verificationDelivery: null }),
     getters: {
         authenticated: (state) => Boolean(state.user),
         role: (state) => state.user?.role || 'requester',
@@ -16,6 +16,9 @@ export const useAuthStore = defineStore('auth', {
             try {
                 await ensureCsrf()
                 const { data } = await http.get('/api/me')
+                if (this.verificationDelivery?.email && this.verificationDelivery.email !== data.data.user.email.toLowerCase()) {
+                    this.verificationDelivery = null
+                }
                 this.user = data.data.user
                 this.roles = data.data.user.roles || [data.data.user.role]
                 this.emailUnverified = !data.data.email_verified
@@ -29,6 +32,7 @@ export const useAuthStore = defineStore('auth', {
                 this.roles = []
                 this.permissions = []
                 this.emailUnverified = false
+                this.verificationDelivery = null
             } finally {
                 this.ready = true
             }
@@ -51,14 +55,36 @@ export const useAuthStore = defineStore('auth', {
             return { emailUnverified: this.emailUnverified }
         },
         async register(form) {
-            await http.post('/register', form)
-            await refreshCsrf()
+            const { data } = await http.post('/register', form)
+            this.setVerificationDelivery(data?.verification, form.email)
             this.ready = false
-            await this.restoreSession()
+            try {
+                await refreshCsrf()
+                await this.restoreSession()
+                if (!this.authenticated) throw new Error('Registration session was not retained.')
+            } catch (failure) {
+                const error = new Error('Your account was created, but we could not start your session. Sign in with your new account to continue.', { cause: failure })
+                error.accountCreated = true
+                throw error
+            }
             return this.emailUnverified
         },
+        setVerificationDelivery(verification, email = this.user?.email) {
+            this.verificationDelivery = ['sent', 'unavailable'].includes(verification?.status)
+                ? { status: verification.status, message: verification.message || '', email: email?.trim().toLowerCase() || null }
+                : null
+        },
         async resendVerification() {
-            return http.post('/email/verification-notification')
+            try {
+                const { data } = await http.post('/email/verification-notification')
+                this.setVerificationDelivery(data?.verification)
+                return data
+            } catch (failure) {
+                if (failure.response?.data?.verification) {
+                    this.setVerificationDelivery(failure.response.data.verification)
+                }
+                throw failure
+            }
         },
         async requestPasswordReset(email) {
             const { data } = await http.post('/forgot-password', { email })
@@ -73,10 +99,12 @@ export const useAuthStore = defineStore('auth', {
         },
         async signOut() {
             try { await http.post('/logout') } finally {
+                resetCsrf()
                 this.user = null
                 this.roles = []
                 this.permissions = []
                 this.emailUnverified = false
+                this.verificationDelivery = null
                 this.ready = true
             }
         },

@@ -147,6 +147,7 @@ Use .env.render.example as the copy template. Resolve these values before deploy
 | REVERB_ALLOWED_ORIGINS | Vue hostnames only, e.g. app.example.com,my-frontend.pages.dev |
 | MAIL_MAILER / MAIL_SCHEME | smtp / smtp for STARTTLS on a supported unblocked port |
 | MAIL_HOST / MAIL_PORT | Provider hostname / 2525 if supported |
+| MAIL_TIMEOUT | SMTP timeout in seconds; defaults to 10 |
 | MAIL_USERNAME / MAIL_PASSWORD | Provider credentials; password is secret |
 | MAIL_FROM_ADDRESS / MAIL_FROM_NAME | Provider-verified sender / application name |
 | FILESYSTEM_DISK | local currently; storage limitation below applies |
@@ -190,6 +191,20 @@ This targets the new file's Aiven connection, not the existing local .env. Never
 
 
 ### First Superadmin account
+
+After the cloud schema has been initialized, run the local PowerShell helper from the project root without Docker:
+
+~~~powershell
+.\scripts\seed-aiven.ps1 -CaPath "C:\Users\Marcel Jay\Downloads\ca.pem" -Email "marcelcabauatan@gmail.com"
+~~~
+
+The private .env.render.local is the default deployment settings file. Optional arguments are -EnvPath '.env.render.local' for another deployment file and -Name 'Superadmin' for the account name. The helper uses the local PHP 8.5 runtime, falling back to a compatible PHP executable on PATH.
+
+Hidden prompts request the Aiven database password, new Superadmin password and repeated password. Passwords are never saved or printed. The helper reuses SuperadminSeeder through a verified TLS Aiven connection inside a transaction. It creates or updates the selected email, sets the supplied name and new password, assigns the superadmin role and confirms email verification. Existing two-factor configuration is retained.
+
+The helper does not run migrations or change the local .env/configuration. Initialize the cloud schema first. At this stage the helper is prepared; actual cloud seeding has not been executed.
+
+#### Docker alternatives
 
 Register and verify an account through Vue, then promote it with the existing command:
 
@@ -322,6 +337,20 @@ Docker is not installed in the current environment, so image build, container st
 - **Email:** Choose SMTP on an unblocked port such as 2525, supported by your provider. Gmail 465/587 cannot work on Free. The log mailer never delivers email. An HTTP email provider is an alternative, but its transport SDK must first be installed/configured; current Composer dependencies omit optional provider SDKs. Verify delivery before relying on registration/password reset. See [Laravel mail transports](https://laravel.com/docs/13.x/mail).
 
 ## Troubleshooting
+
+### Registration and verification email
+
+The selected Brevo port-2525 setup has a [step-by-step guide](BREVO_SETUP.md) covering sender verification, SMTP credentials, Render settings and publishing these fixes.
+
+The backend reports account creation separately from verification email delivery. Registration returns HTTP 201 after creating and signing in an unverified account, with `verification.status=sent` when the mail provider accepts the message or `unavailable` when delivery fails. Failed resend returns HTTP 503 with an actionable message. Production verification emails skip `log`/`array` fallback transports while keeping real SMTP/provider fallbacks working. If no delivery transport remains or all real transports fail, the response is unavailable. The normal mailer transport is restored afterwards. Provider acceptance does not guarantee inbox placement; check the provider delivery log and the recipient spam folder.
+
+If an earlier registration request failed after saving the account, sign in with that email and password, then use **Resend verification email** after fixing the provider. Do not register the same address again. The account remains unverified until its signed email link is used.
+
+Configure the actual provider settings in **Render service → Environment**, then **Save and deploy**. Use the provider's supported SMTP port 2525 with `MAIL_SCHEME=smtp`, its exact `MAIL_HOST`, SMTP username/key, a verified `MAIL_FROM_ADDRESS`, and `MAIL_TIMEOUT=10`. Remove an obsolete `MAIL_URL` if it overrides these settings. Gmail SMTP 465/587 is blocked on Render Free; changing only the Gmail port to 2525 does not make Gmail support that port. [Render outbound-port restrictions](https://render.com/docs/free#other-limitations).
+
+For a provider supporting this setup, [Brevo's SMTP instructions](https://help.brevo.com/hc/en-us/articles/7924908994450-Send-transactional-emails-using-Brevo-SMTP) specify `smtp-relay.brevo.com`, the **SMTP Login** value and an **SMTP key**, rather than an API key. Its [troubleshooting guide](https://help.brevo.com/hc/en-us/articles/115000188150-Troubleshooting-Issues-with-Brevo-SMTP) confirms port 2525 and explains sender verification/domain authentication. Complete those provider requirements before trying real delivery. Optional HTTP mail transports require their corresponding Composer SDK; setting `MAIL_MAILER=resend` alone does not install it.
+
+The application logs `Verification email delivery unavailable` with sanitized diagnostic fields when a mail setup or transport problem occurs. Keep `APP_DEBUG=false` and do not paste keys, passwords or signed verification URLs from logs into chat.
 
 | Symptom | Check |
 | --- | --- |

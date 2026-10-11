@@ -72,6 +72,8 @@ services:
         value: "smtp"
       - key: MAIL_PORT
         value: "2525"
+      - key: MAIL_TIMEOUT
+        value: "10"
       - key: MAIL_FROM_NAME
         value: "SupportDesk"
       - key: FILESYSTEM_DISK

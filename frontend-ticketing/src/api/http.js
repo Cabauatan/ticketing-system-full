@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 let csrfRequest
+let csrfRefreshRequest
 let csrfToken = ''
+let csrfGeneration = 0
 
 export const http = axios.create({
     baseURL: (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, ''),
@@ -14,28 +16,55 @@ export const http = axios.create({
 export async function ensureCsrf() {
     if (csrfToken) return csrfToken
     if (!csrfRequest) {
-        csrfRequest = http.get('/api/csrf-token')
+        const generation = csrfGeneration
+        const request = http.get('/api/csrf-token')
             .then(({ data }) => {
+                if (generation !== csrfGeneration) return ensureCsrf()
                 csrfToken = data.token
                 return csrfToken
             })
-            .finally(() => { csrfRequest = undefined })
+            .finally(() => { if (csrfRequest === request) csrfRequest = undefined })
+        csrfRequest = request
     }
     return csrfRequest
 }
 
-export async function refreshCsrf() {
+export function resetCsrf() {
+    csrfGeneration += 1
     csrfToken = ''
     csrfRequest = undefined
-    return ensureCsrf()
+    csrfRefreshRequest = undefined
 }
 
+export async function refreshCsrf() {
+    if (!csrfRefreshRequest) {
+        resetCsrf()
+        const request = ensureCsrf()
+            .finally(() => { if (csrfRefreshRequest === request) csrfRefreshRequest = undefined })
+        csrfRefreshRequest = request
+    }
+    return csrfRefreshRequest
+}
+
+const isMutation = (config) => !['get', 'head', 'options'].includes((config.method || 'get').toLowerCase())
+
 http.interceptors.request.use(async (config) => {
-    if (!['get', 'head', 'options'].includes((config.method || 'get').toLowerCase())) {
+    if (isMutation(config)) {
         const token = await ensureCsrf()
+        config.headers ||= {}
         config.headers['X-CSRF-TOKEN'] = token
     }
     return config
+})
+
+http.interceptors.response.use(undefined, async (error) => {
+    const config = error.config
+    if (error.response?.status !== 419 || !config || !isMutation(config) || config._csrfRetried) throw error
+
+    config._csrfRetried = true
+    const rejectedToken = config.headers?.get?.('X-CSRF-TOKEN') || config.headers?.['X-CSRF-TOKEN']
+    if (!csrfToken || !rejectedToken || rejectedToken === csrfToken) await refreshCsrf()
+    return http.request(config)
 })
 
 export function apiError(error) {

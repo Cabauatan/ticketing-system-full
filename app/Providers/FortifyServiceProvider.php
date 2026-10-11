@@ -4,9 +4,14 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Http\Responses\EmailVerificationNotificationSentResponse;
+use App\Http\Responses\RegisterResponse;
+use App\Services\VerificationEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Events\NotificationSent;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -19,7 +24,9 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->scoped(VerificationEmail::class);
+        $this->app->bind(\Laravel\Fortify\Contracts\RegisterResponse::class, RegisterResponse::class);
+        $this->app->bind(\Laravel\Fortify\Contracts\EmailVerificationNotificationSentResponse::class, EmailVerificationNotificationSentResponse::class);
     }
 
     /**
@@ -27,6 +34,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Event::listen(NotificationSent::class, fn (NotificationSent $event) => app(VerificationEmail::class)->recordSent($event));
         ResetPassword::createUrlUsing(fn ($user, string $token): string => rtrim(config('app.frontend_url'), '/').'/reset-password/'.$token.'?email='.urlencode($user->getEmailForPasswordReset()));
         $this->configureActions();
         $this->configureViews();
