@@ -69,8 +69,11 @@ http.interceptors.response.use(undefined, async (error) => {
 
 export function apiError(error) {
     const response = error?.response?.data
+    const timedOut = ['ECONNABORTED', 'ETIMEDOUT'].includes(error?.code)
     return {
-        message: response?.message || error?.message || 'Hindi makakonekta sa server. Subukan ulit.',
+        message: response?.message || (timedOut
+            ? 'Hindi sumagot ang server sa takdang oras. Maghintay ng isang minuto, tapos subukan ulit.'
+            : error?.message) || 'Hindi makakonekta sa server. Subukan ulit.',
         errors: response?.errors || {},
         status: error?.response?.status,
     }

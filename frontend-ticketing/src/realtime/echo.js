@@ -29,7 +29,8 @@ export function connectRealtime() {
         wsPort: Number(import.meta.env.VITE_REVERB_PORT || 8081),
         wssPort: Number(import.meta.env.VITE_REVERB_PORT || 8081),
         forceTLS: secure,
-        enabledTransports: secure ? ['wss'] : ['ws'],
+        // Pusher names the transport "ws" even when forceTLS selects WSS.
+        enabledTransports: ['ws'],
         // Use the API client's session and CSRF token even on a separate frontend domain.
         channelAuthorization: {
             customHandler({ socketId, channelName }, callback) {

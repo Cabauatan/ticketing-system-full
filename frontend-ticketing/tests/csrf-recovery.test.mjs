@@ -129,6 +129,20 @@ test('a failed token refresh leaves the rejected mutation unreplayed', async () 
     assert.equal(fixture.calls.filter((call) => call.url === '/login').length, 1)
 })
 
+test('a login timeout shows a useful message without automatically replaying the login', async () => {
+    for (const code of ['ECONNABORTED', 'ETIMEDOUT']) {
+        const timeout = Object.assign(new Error('timeout of 30000ms exceeded'), { code })
+        const fixture = await loadClients(async (config) => {
+            if (config.url === '/api/csrf-token') return { data: { token: 'current-token' } }
+            throw timeout
+        })
+        await assert.rejects(fixture.client.post('/login', {}), (error) => error === timeout)
+        assert.equal(fixture.calls.filter((call) => call.url === '/login').length, 1)
+        assert.match(fixture.csrf.apiError(timeout).message, /Hindi sumagot ang server/)
+        assert.equal(fixture.csrf.apiError({ ...timeout, response: { data: { message: 'Service unavailable.' } } }).message, 'Service unavailable.')
+    }
+})
+
 test('concurrent rejected mutations share one token refresh', { timeout: 5000 }, async () => {
     const refresh = deferred()
     const bothRejected = deferred()

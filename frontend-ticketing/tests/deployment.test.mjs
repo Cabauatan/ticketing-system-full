@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import vm from 'node:vm'
+import Pusher from 'pusher-js'
 
 async function loadClients(env) {
     const calls = []
@@ -78,4 +79,26 @@ test('production private Reverb authorization uses backend session CSRF and HTTP
     const rejected = await new Promise((resolve) => options.channelAuthorization.customHandler({ socketId: '123.456', channelName: 'private-workspace.staff' }, (error, data) => resolve({ error, data })))
     assert.equal(rejected.error, denied)
     assert.equal(rejected.data, null)
+})
+
+test('the real Pusher client starts a secure WebSocket with production Echo options', async () => {
+    const fixture = await loadClients({ VITE_REVERB_APP_KEY: 'public-key', VITE_REVERB_HOST: 'api.example.test', VITE_REVERB_PORT: '443', VITE_REVERB_SCHEME: 'https' })
+    fixture.realtime.connectRealtime()
+    const urls = []
+    const originalCreateWebSocket = Pusher.Runtime.createWebSocket
+    let connection
+    try {
+        Pusher.Runtime.createWebSocket = (url) => {
+            urls.push(url)
+            return { close() {} }
+        }
+        connection = new Pusher('public-key', { ...fixture.options(), cluster: '' })
+        await new Promise((resolve) => setImmediate(resolve))
+        assert.equal(urls.length, 1)
+        assert.equal(new URL(urls[0]).protocol, 'wss:')
+        assert.equal(new URL(urls[0]).hostname, 'api.example.test')
+    } finally {
+        connection?.disconnect()
+        Pusher.Runtime.createWebSocket = originalCreateWebSocket
+    }
 })
